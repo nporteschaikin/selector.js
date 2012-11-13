@@ -1,0 +1,22 @@
+.selector,
+.selector ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.selector {
+	width: 150px;
+}
+.selector .selector-title a {
+	display: block;
+	padding: 6px;
+	background: #ddd;
+}
+.selector .selector-list ul {
+	width: 150px;
+}
+.selector .selector-list a {
+	display: block;
+	padding: 3px 6px;
+	background: #f1f1f1;
+}
