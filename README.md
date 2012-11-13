@@ -9,8 +9,8 @@
 <p>jQuery:<br />
 <code>$('select').select( options );</code></p>
 <p>HTML:<br />
-<code><select>	
-	<option value="1">Option 1</option>
-	<option value="2">Option 2</option>
-</select></code></p>
+<code>	&#60;select&#62;	
+		&#60;option value="1"&#62;Option 1&#60;/option&#62;
+		&#60;option value="2"&#62;Option 2&#60;/option&#62;
+	&#60;/select&#62;</code></p>
 <p>CSS: see selector.css</p>
