@@ -45,7 +45,8 @@
 					
 
 					if ( select.name.length > 0 ) {
-						blocks.input.attr('name', select.name);
+						blocks.input.attr( 'name', select.name );
+						build.attr( 'data-name', select.name );
 					}
 
 					if ( select.options.length > 0 ) {
