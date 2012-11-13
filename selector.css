@@ -1,3 +1,22 @@
+/* 
+selector.js
+Quickly and easily create beautiful custom <select> elements.
+Noah Portes Chaikin
+
+Below, please find sample CSS.
+
+Use these selectors:
+(by default, prefix is "selector")
+	.prefix => the selector container
+	.prefix .prefix-title => the selector title container
+	.prefix .prefix-title a => the selector title
+	.prefix .prefix-list => the list wrapper
+	.prefix .prefix-list ul => the list
+	.prefix .prefix-list li => the item wrapper
+	.prefix .prefix-list a => the item
+		
+*/
+
 .selector,
 .selector ul {
 	list-style: none;
