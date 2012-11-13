@@ -112,6 +112,9 @@ beautiful custom <select> elements.
 								value = $(this).html();
 							blocks.title.html( value );
 							blocks.input.val( key );
+							if( settings.url == true ) {
+								window.location = key;
+							}
 							if ( blocks.list.parent().css('display') == 'block' ) {
 								blocks.title.click();
 							}
