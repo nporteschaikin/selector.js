@@ -8,6 +8,7 @@ Below, please find sample CSS.
 Use these selectors:
 (by default, prefix is "selector")
 	.prefix => the selector container
+	.prefix-open => the selector container, when open
 	.prefix .prefix-title => the selector title container
 	.prefix .prefix-title a => the selector title
 	.prefix .prefix-list => the list wrapper
@@ -30,6 +31,9 @@ Use these selectors:
 	display: block;
 	padding: 6px;
 	background: #ddd;
+}
+.selector-open .selector-title a {
+	background: #999;
 }
 .selector .selector-list ul {
 	width: 150px;
