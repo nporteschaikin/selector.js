@@ -1,6 +1,8 @@
 (function( $ ){
 
-	$.fn.select = function( options ) {  
+	var methods = {};
+	
+	methods.init = function( options ) {  
 		
 		return this.each(
 			function() {
@@ -18,53 +20,24 @@
 				
 				$this = $(this);
 				if ( $this.is( 'select' )  ) {
+					
 					var select, build, blocks;
+					var data = $this.data('select');
+					
 					select = {
 						name: $this.attr('name'),
 						id: $this.attr('id'),
 						options: $this.find('option')
 					}
-
-					build = $('<ul class="' + settings.pfx + '" />');
-					build.html( '<li class="' + settings.pfx + '-title"><a href="#"></a></li>' );
-					build.prepend( '<input type="hidden" />' );
-					build.append( '<li class="' + settings.pfx + '-list"><ul></ul></li>' );
-
-					blocks = {
-						title: build.find('.' + settings.pfx + '-title a'),
-						list: build.find('.' + settings.pfx + '-list ul'),
-						input: build.find('input')
+					
+					data = {
+						settings: settings,
+						select: select
 					}
 					
-					blocks.list.parent().css( { 
-						'display': 'none', 
-						'position': 'absolute', 
-						'z-index': settings.z,
-						'margin': 0,
-						'padding': 0,
-						'border': 0
-					} )
-					
-
-					if ( select.name.length > 0 ) {
-						blocks.input.attr( 'name', select.name );
-						build.attr( 'data-name', select.name );
-					}
-
-					if ( select.options.length > 0 ) {
-						select.options.each(
-							function() {
-								var key = $(this).attr('value'),
-									value = $(this).html();
-								item = $( '<li><a href="#"></a></li>' );
-								item.attr( 'data-value', key );
-								item.find('a').html( value );
-								blocks.list.append( item );
-							}
-						)
-					}
-					
-					blocks.items = blocks.list.find('li a');
+					data.build = _build( data );
+					data.blocks = _blocks( data );
+					data = _setup( data );
 					
 					blocks.title.bind( 'click',
 						function( e ) {
@@ -133,5 +106,67 @@
 		);
 		
   };
+
+	$.fn.select = function( method ) {  
+		if ( methods[method] ) {
+			return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
+		} else if ( typeof method === 'object' || ! method ) {
+			return methods.init.apply( this, arguments );
+		}
+	}
+	
+	function _build( data ) {
+		var build;
+		build = $('<ul class="' + data.settings.pfx + '" />');
+		build.html( '<li class="' + data.settings.pfx + '-title"><a href="#"></a></li>' );
+		build.prepend( '<input type="hidden" />' );
+		build.append( '<li class="' + data.settings.pfx + '-list"><ul></ul></li>' );
+		return build;
+	}
+	
+	function _blocks( data ) {
+		var blocks;
+		blocks = {
+			title: data.build.find('.' + data.settings.pfx + '-title a'),
+			list: data.build.find('.' + data.settings.pfx + '-list ul'),
+			input: data.build.find('input')
+		}
+		return blocks;
+	}
+	
+	function _setup( data ) {
+		
+		data.blocks.list.parent().css( { 
+			'display': 'none', 
+			'position': 'absolute', 
+			'z-index': data.settings.z,
+			'margin': 0,
+			'padding': 0,
+			'border': 0
+		} )
+		
+		if ( data.select.name.length > 0 ) {
+			data.blocks.input.attr( 'name', data.select.name );
+			data.build.attr( 'data-name', data.select.name );
+		}
+		
+		if ( data.select.options.length > 0 ) {
+			data.select.options.each(
+				function() {
+					var key = $(this).attr('value'),
+						value = $(this).html();
+					item = $( '<li><a href="#"></a></li>' );
+					item.attr( 'data-value', key );
+					item.find('a').html( value );
+					data.blocks.list.append( item );
+				}
+			)
+						
+		}
+		
+		data.blocks.items = data.blocks.list.find('li a');
+		return data;
+		
+	}
 
 })( jQuery );
