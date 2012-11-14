@@ -5,6 +5,8 @@
 <p><code>placeholder: string (null)</code> Set a placeholder for when no option is selected.</p>
 <p><code>pfx: string ('selector')</code> Set the CSS prefix.</p>
 <p><code>z: number (99)</code> Set the z-index of the list.</p>
+<p><code>fade: bool (true)</code> Whether the list fades in and out when toggled.</p>
+<p><code>fadeSpeed: number (100)</code> How fast the fade occurs.</p>
 <h1>Usage</h1>
 <p>jQuery:<br />
 <code>$('select').select( options );</code></p>
