@@ -1,20 +1,5 @@
 (function( $ ){
-/*
 
----
-
-selector.js:
-Quickly and easily create 
-beautiful custom <select> elements.
-
----
-
-@by Noah Portes Chaikin
-@requires jQuery 1.8+
-
----
-
-*/
 	$.fn.select = function( options ) {  
 		
 		return this.each(
