@@ -1,137 +1,208 @@
 (function( $ ){
+	
+	var defaults = { 
+		'url': false,
+		'placeholder': null,
+		'pfx': 'selector',
+		'z': '99',
+		'fade': true,
+		'sp': 100
+	}
 
-	$.fn.select = function( options ) {  
+	var methods = {
 		
-		return this.each(
-			function() {
-				
-				var defaults = { 
-					'url': false,
-					'placeholder': null,
-					'pfx': 'selector',
-					'z': '99',
-					'fade': true,
-					'fadeSpeed': 100
+		init: function ( settings ) {
+			settings = $.extend( {}, defaults, settings );
+			return this.each( 
+				function() {
+					
+					// $(this) must be <select> and have a "name" attr
+					if( $( this ).is( 'select' ) 
+					&& $( this ).attr( 'name' ) ) {
+						
+						// select
+						var select = {
+							name: $( this ).attr( 'name' ),
+							options: $( this ).find( 'option' ),
+							id: $( this ).find( 'id' ),
+							settings: settings
+						},
+						// data
+						data = $( this ).data( 'select' ) || select;
+						
+						// build
+						$build = build( data );
+						data.build = $build;
+						
+						// place
+						$( this ).hide();
+						$( this ).after( $build );
+										
+						// save data
+						$( this ).data( 'select', data );
+						$build.data( 'select', data );
+						
+						// set binds
+						binder( data );
+						
+					} else {
+						return false;
+					}
+					
 				}
-
-				var settings = $.extend(defaults, options);
-				
-				$this = $(this);
-				if ( $this.is( 'select' )  ) {
-					var select, build, blocks;
-					select = {
-						name: $this.attr('name'),
-						id: $this.attr('id'),
-						options: $this.find('option')
-					}
-
-					build = $('<ul class="' + settings.pfx + '" />');
-					build.html( '<li class="' + settings.pfx + '-title"><a href="#"></a></li>' );
-					build.prepend( '<input type="hidden" />' );
-					build.append( '<li class="' + settings.pfx + '-list"><ul></ul></li>' );
-
-					blocks = {
-						title: build.find('.' + settings.pfx + '-title a'),
-						list: build.find('.' + settings.pfx + '-list ul'),
-						input: build.find('input')
-					}
+			)
+		},
+		
+		open: function() {
+			
+			return this.each(
+				function() {
 					
-					blocks.list.parent().css( { 
-						'display': 'none', 
-						'position': 'absolute', 
-						'z-index': settings.z,
-						'margin': 0,
-						'padding': 0,
-						'border': 0
-					} )
-					
-
-					if ( select.name.length > 0 ) {
-						blocks.input.attr( 'name', select.name );
-						build.attr( 'data-name', select.name );
-					}
-
-					if ( select.options.length > 0 ) {
-						select.options.each(
-							function() {
-								var key = $(this).attr('value'),
-									value = $(this).html();
-								item = $( '<li><a href="#"></a></li>' );
-								item.attr( 'data-value', key );
-								item.find('a').html( value );
-								blocks.list.append( item );
-							}
-						)
-					}
-					
-					blocks.items = blocks.list.find('li a');
-					
-					blocks.title.bind( 'click',
-						function( e ) {
-							e.preventDefault();
-							if ( blocks.list.parent().css('display') == 'none' ) {
-								if( settings.fade ) {
-									blocks.list.parent().stop().fadeIn( options.fadeSpeed );
-								} else {
-									blocks.list.parent().css('display', 'block');
-								}
-								build.addClass( settings.pfx + '-open' );
-								if ( settings.placeholder == null ) {
-									blocks.items.parent().filter('[data-value="' + blocks.input.val() + '"]').css('display', 'none');
-								} else {
-									blocks.title.html( settings.placeholder );
-								}
-								$(document).bind('click',
-									function( e ) {
-										e.preventDefault();
-										if ( build.has( e.target ).length === 0 ) {
-											blocks.title.click();
-										}
-									}
-								)
-							} else {
-								if( settings.fade ) {
-									blocks.list.parent().stop().fadeOut( options.fadeSpeed );
-								} else {
-									blocks.list.parent().css('display', 'none');
-								}
-								build.removeClass( settings.pfx + '-open' );
-								blocks.items.parent().css('display', 'block');
-								$(document).unbind( 'click' );
-							}
+					var data = $( this ).data( 'select' );
+					if ( data.name ) {
+						
+						// find options
+						var options = data.build.find( '.' + data.settings.pfx + '-list' );
+						
+						// fade in or show
+						if ( data.settings.fade ) {
+							options.stop().fadeIn( data.settings.sp );
+						} else {
+							options.css( 'display', 'block' );
 						}
-					)
-					
-					blocks.items.bind( 'click',
-						function() {
-							var parent = $(this).parent(),
-								key = parent.attr('data-value'),
-								value = $(this).html();
-							blocks.title.html( value );
-							blocks.input.val( key );
-							if( settings.url == true ) {
-								window.location = key;
-							}
-							if ( blocks.list.parent().css('display') !== 'none' ) {
-								blocks.title.click();
-							}
-						}
-					)
-					
-					if ( settings.placeholder !== null ) {
-						blocks.title.html( settings.placeholder );
-					}else{
-						blocks.items.first().click();
+						
+						// add open class
+						data.build.toggleClass( data.settings.pfx + '-open' );
+						
+					} else {
+						return false;
 					}
 					
-					$this.replaceWith( build );
-					
-				} else {
-					return false;
 				}
-			}
-		);
+			)
+			
+		},
+		
+		close: function() {
+			
+			return this.each(
+				function() {
+					
+					var data = $( this ).data( 'select' );
+					if ( data.name ) {
+						
+						// find options
+						var options = data.build.find( '.' + data.settings.pfx + '-list' );
+						
+						// fade out or hide
+						if ( data.settings.fade ) {
+							options.stop().fadeOut( data.settings.sp );
+						} else {
+							options.css( 'display', 'none' );
+						}
+						
+						// remove open class
+						data.build.toggleClass( data.settings.pfx + '-open' );
+						
+					} else {
+						return false;
+					}
+					
+				}
+			)
+			
+		},
+		
+		change: function() {
+			
+			return this.each(
+				function() {
+					
+					alert('test');
+					
+				}
+			);
+			
+		}
+		
+	}
+
+	$.fn.select = function( method ) {  
+		
+		if ( methods[method] ) {
+			return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
+		} else if ( typeof method === 'object' || ! method ) {
+			return methods.init.apply( this, arguments );
+		}
 		
   };
+
+	function build ( data ) {
+		
+		var $build,
+		// list css
+		listCSS = { 
+			'display': 'none', 
+			'position': 'absolute', 
+			'z-index': data.settings.z,
+			'margin': 0,
+			'padding': 0,
+			'border': 0
+		};
+		
+		// structure
+		$build = $('<ul class="' + data.settings.pfx + '" />');
+		$build.html( '<li class="' + data.settings.pfx + '-title"><a href="#"></a></li>' );
+		$build.prepend( '<input type="hidden" />' );
+		$build.append( '<li class="' + data.settings.pfx + '-list"><ul></ul></li>' );
+		
+		// give name
+		$build.find( 'input' ).attr( 'name', data.name );
+		
+		// options
+		data.options.each (
+			function() {
+				var key = $( this ).attr('value'),
+				value = $( this ).html(),
+				item = $( '<li><a href="#"></a></li>' );
+				item.attr( 'data-value', key );
+				item.find('a').html( value );
+				$build.find( '.' + data.settings.pfx + '-list ul' ).append( item );
+			}
+		)
+		
+		// add css to list
+		$build.find( '.' + data.settings.pfx + '-list' ).css( listCSS );
+		
+		// done
+		return $build;
+		
+	}
+	
+	function binder ( data ) {
+		
+		var build = data.build;
+		
+		build.find( '.' + data.settings.pfx + '-title a' ).bind( 'click', 
+			function( e ) {
+				e.preventDefault();
+				if( build.hasClass( data.settings.pfx + '-open' ) ) {
+					build.select( 'close' );
+				} else {
+					build.select( 'open' );
+				}
+			}
+		)
+		
+		build.find( '.' + data.settings.pfx + '-list a' ).bind( 'click', 
+			function( e ) {
+				e.preventDefault();
+				build.select( 'change' );
+				build.select( 'close' );
+			}
+		)
+		
+	}
+
 
 })( jQuery );
