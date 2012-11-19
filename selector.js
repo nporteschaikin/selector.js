@@ -2,10 +2,9 @@
 	
 	var defaults = { 
 		'url': false,
-		'placeholder': null,
 		'pfx': 'selector',
 		'z': '99',
-		'fade': true,
+		'fade': false,
 		'sp': 100
 	}
 
@@ -45,6 +44,9 @@
 						// set binds
 						binder( data );
 						
+						// open first
+						$build.select( 'change', { eq: 0 } );
+						
 					} else {
 						return false;
 					}
@@ -73,6 +75,16 @@
 						
 						// add open class
 						data.build.toggleClass( data.settings.pfx + '-open' );
+						
+						// bind
+						$(document).bind('click', 
+							function( e ) { 
+								e.preventDefault();
+								if ( data.build.has( e.target ).length === 0 ) {
+									data.build.select( 'close' );
+								}
+							} 
+						);
 						
 					} else {
 						return false;
@@ -104,6 +116,9 @@
 						// remove open class
 						data.build.toggleClass( data.settings.pfx + '-open' );
 						
+						// unbind
+						$( document ).unbind( 'click' );
+						
 					} else {
 						return false;
 					}
@@ -113,12 +128,32 @@
 			
 		},
 		
-		change: function() {
+		change: function( settings ) {
 			
 			return this.each(
 				function() {
 					
-					alert('test');
+					var data = $( this ).data( 'select' ),
+					item;
+					
+					if( data.name && ( settings.eq >= 0 || settings.val ) ) {
+						item = data.build.find( '.' + data.settings.pfx + '-list li' );
+						
+						// eq or val?
+						if ( settings.eq >= 0 ) {
+							item = item.eq( settings.eq );
+						} else {
+							item = item.filter( '[data-value="' + settings.val + '"]' );
+						}
+						
+						item = {
+							title: item.find( 'a' ).html(),
+							value: item.attr( 'data-value' )
+						}
+						data.build.find( 'input' ).val( item.value );
+						data.build.find( '.' + data.settings.pfx + '-title a' ).html( item.title );
+						
+					}
 					
 				}
 			);
@@ -140,8 +175,9 @@
 	function build ( data ) {
 		
 		var $build,
+		
 		// list css
-		listCSS = { 
+		css = { 
 			'display': 'none', 
 			'position': 'absolute', 
 			'z-index': data.settings.z,
@@ -172,7 +208,7 @@
 		)
 		
 		// add css to list
-		$build.find( '.' + data.settings.pfx + '-list' ).css( listCSS );
+		$build.find( '.' + data.settings.pfx + '-list' ).css( css );
 		
 		// done
 		return $build;
@@ -197,7 +233,7 @@
 		build.find( '.' + data.settings.pfx + '-list a' ).bind( 'click', 
 			function( e ) {
 				e.preventDefault();
-				build.select( 'change' );
+				build.select( 'change', { eq: $(this).parent().index() } );
 				build.select( 'close' );
 			}
 		)
