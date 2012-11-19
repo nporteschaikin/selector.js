@@ -46,7 +46,11 @@
 						binder( data );
 						
 						// open first
-						$build.select( 'change', { eq: 0 } );
+						if ( $( this ).has(':selected') ) {
+							$build.select( 'change', { eq: $( this ).find(':selected').index() } );
+						} else {
+							$build.select( 'change', { eq: 0 } );
+						}
 						
 					} else {
 						return false;
@@ -65,7 +69,11 @@
 					if ( data.name ) {
 						
 						// find options
-						var options = data.build.find( '.' + data.settings.pfx + '-list' );
+						var options = data.build.find( '.' + data.settings.pfx + '-list' ),
+						title = data.build.find( '.' + data.settings.pfx + '-title' );
+						
+						// set list width
+						options.width( title.width() );
 						
 						// fade in or show
 						if ( data.settings.fade ) {
