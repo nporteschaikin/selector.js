@@ -1,54 +1,92 @@
 /* 
 selector.js
 Quickly and easily create beautiful custom <select> elements.
-Noah Portes Chaikin
-
-Below, please find sample CSS.
-
-Use these selectors:
-(by default, prefix is "selector")
-	.prefix => the selector container
-	.prefix-open => the selector container, when open
-	.prefix .prefix-title => the selector title container
-	.prefix .prefix-title a => the selector title
-	.prefix .prefix-list => the list wrapper
-	.prefix .prefix-list ul => the list
-	.prefix .prefix-list li => the item wrapper
-	.prefix .prefix-list a => the item
-		
+Noah Portes Chaikin 
 */
 
-.selector {
-	float: left;
-}
+/* Reset */
 .selector,
 .selector ul {
 	list-style: none;
 	margin: 0;
 	padding: 0;
+	line-height: 1;
 }
+
+/* The container element */
 .selector {
-	width: 150px;
+	float: left;
+	width: 250px;
+	margin-right: 20px;
+	font-family: 'Helvetica Neue', 'Helvetica', 'sans-serif';
+	outline: none;
 }
+	/* ..focused */
+	.selector-focus {
+		box-shadow: 0 0 8px rgba(0, 116, 190, 0.3); 
+    -moz-box-shadow: 0 0 8px rgba(0, 116, 190, 0.3);  
+    -webkit-box-shadow: 0 0 8px rgba(0, 116, 190, 0.3); 
+	}
+	
+/* all title and options */
+.selector a {
+	text-decoration: none;
+	color: #333;
+}
+
+/* The title */
 .selector .selector-title a {
 	display: block;
 	padding: 6px;
 	background: #ddd;
+	border-radius: 2px;
+	border: 1px solid #999;
+	background-image: -ms-linear-gradient(top, #FFFFFF 0%, #DDDDDD 100%);
+	background-image: -moz-linear-gradient(top, #FFFFFF 0%, #DDDDDD 100%);
+	background-image: -o-linear-gradient(top, #FFFFFF 0%, #DDDDDD 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF), color-stop(1, #DDDDDD));
+	background-image: -webkit-linear-gradient(top, #FFFFFF 0%, #DDDDDD 100%);
+	background-image: linear-gradient(to bottom, #FFFFFF 0%, #DDDDDD 100%);
 }
-.selector-open .selector-title a {
-	background: #999;
-}
+	/* .. opened */
+	.selector-open .selector-title a {
+		background: #ddd;
+		background-image: -ms-linear-gradient(top, #DDDDDD 0%, #FFFFFF 100%);
+		background-image: -moz-linear-gradient(top, #DDDDDD 0%, #FFFFFF 100%);
+		background-image: -o-linear-gradient(top, #DDDDDD 0%, #FFFFFF 100%);
+		background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #DDDDDD), color-stop(1, #FFFFFF));
+		background-image: -webkit-linear-gradient(top, #DDDDDD 0%, #FFFFFF 100%);
+		background-image: linear-gradient(to bottom, #DDDDDD 0%, #FFFFFF 100%);
+	}
+
+/* The options container */
 .selector .selector-list ul {
-	width: 150px;
+	margin-top: -3px;
+	border: 1px solid #999;
+	border-bottom: 0;
+	background: #fff;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+}
+
+/* The options */
+.selector .selector-list {
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.3); 
+  -moz-box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);  
+  -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.3); 
 }
 .selector .selector-list a {
 	display: block;
-	padding: 3px 6px;
-	background: #f1f1f1;
+	padding: 6px;
+	border-bottom: 1px solid #999;
 }
-
-.selector .selector-list a:hover,
-.selector .selector-list .selected a {
-	background: #000;
-	color: #fff;
-}
+	/* .. opened or selected */
+	.selector .selector-list a:hover, /* opened */
+	.selector .selector-list .selected a /* selected */ {
+		background: #ddd;
+		color: #1a1a1a;
+	}
