@@ -4,7 +4,7 @@ Quickly and easily create beautiful custom <select> elements.
 Noah Portes Chaikin 
 */
 
-/* Reset */
+/* Reset elements */
 .selector,
 .selector ul {
 	list-style: none;
