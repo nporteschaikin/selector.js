@@ -41,22 +41,22 @@ Noah Portes Chaikin
 	background: #ddd;
 	border-radius: 2px;
 	border: 1px solid #999;
-	background-image: -ms-linear-gradient(top, #FFFFFF 0%, #DDDDDD 100%);
-	background-image: -moz-linear-gradient(top, #FFFFFF 0%, #DDDDDD 100%);
-	background-image: -o-linear-gradient(top, #FFFFFF 0%, #DDDDDD 100%);
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF), color-stop(1, #DDDDDD));
-	background-image: -webkit-linear-gradient(top, #FFFFFF 0%, #DDDDDD 100%);
-	background-image: linear-gradient(to bottom, #FFFFFF 0%, #DDDDDD 100%);
+	background-image: -ms-linear-gradient(top, #fff 0%, #ddd 100%);
+	background-image: -moz-linear-gradient(top, #fff 0%, #ddd 100%);
+	background-image: -o-linear-gradient(top, #fff 0%, #ddd 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(1, #ddd));
+	background-image: -webkit-linear-gradient(top, #fff 0%, #ddd 100%);
+	background-image: linear-gradient(to bottom, #fff 0%, #ddd 100%);
 }
 	/* .. opened */
 	.selector-open .selector-title a {
 		background: #ddd;
-		background-image: -ms-linear-gradient(top, #DDDDDD 0%, #FFFFFF 100%);
-		background-image: -moz-linear-gradient(top, #DDDDDD 0%, #FFFFFF 100%);
-		background-image: -o-linear-gradient(top, #DDDDDD 0%, #FFFFFF 100%);
-		background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #DDDDDD), color-stop(1, #FFFFFF));
-		background-image: -webkit-linear-gradient(top, #DDDDDD 0%, #FFFFFF 100%);
-		background-image: linear-gradient(to bottom, #DDDDDD 0%, #FFFFFF 100%);
+		background-image: -ms-linear-gradient(top, #ddd 0%, #fff 100%);
+		background-image: -moz-linear-gradient(top, #ddd 0%, #fff 100%);
+		background-image: -o-linear-gradient(top, #ddd 0%, #fff 100%);
+		background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ddd), color-stop(1, #fff));
+		background-image: -webkit-linear-gradient(top, #ddd 0%, #fff 100%);
+		background-image: linear-gradient(to bottom, #ddd 0%, #fff 100%);
 	}
 
 /* The options container */
