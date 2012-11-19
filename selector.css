@@ -84,9 +84,12 @@ Noah Portes Chaikin
 	padding: 6px;
 	border-bottom: 1px solid #999;
 }
-	/* .. opened or selected */
-	.selector .selector-list a:hover, /* opened */
+	/* .. selected */
 	.selector .selector-list .selected a /* selected */ {
 		background: #ddd;
-		color: #1a1a1a;
+	}
+	
+	/* ..hovering */
+	.selector .selector-list a:hover {
+		background: #f1f1f1;
 	}
