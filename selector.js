@@ -21,6 +21,7 @@
 						
 						// select
 						var select = {
+							el: $( this ),
 							name: $( this ).attr( 'name' ),
 							options: $( this ).find( 'option' ),
 							id: $( this ).find( 'id' ),
@@ -74,7 +75,7 @@
 						}
 						
 						// add open class
-						data.build.toggleClass( data.settings.pfx + '-open' );
+						data.build.addClass( data.settings.pfx + '-open' );
 						
 						// bind
 						$(document).bind('click', 
@@ -114,10 +115,7 @@
 						}
 						
 						// remove open class
-						data.build.toggleClass( data.settings.pfx + '-open' );
-						
-						// unbind
-						$( document ).unbind( 'click' );
+						data.build.removeClass( data.settings.pfx + '-open' );
 						
 					} else {
 						return false;
@@ -152,14 +150,11 @@
 						}
 						
 						// change
-						data.build.find( 'input' ).val( item.value );
+						data.el.val( item.value );
 						data.build.find( '.' + data.settings.pfx + '-title a' ).html( item.title );
 						
 						// URL
-						var VALID_URL = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi,
-						VALID_URL_REGEX = new RegExp( VALID_URL ),
-						URL = item.value.toString();
-						if( data.settings.url && URL.match( VALID_URL_REGEX ) ) {
+						if( data.settings.url && item.value !== '' ) {
 							window.location = item.value;
 						}
 						
@@ -199,12 +194,8 @@
 		// structure
 		$build = $('<ul class="' + data.settings.pfx + '" />');
 		$build.html( '<li class="' + data.settings.pfx + '-title"><a href="#"></a></li>' );
-		$build.prepend( '<input type="hidden" />' );
 		$build.append( '<li class="' + data.settings.pfx + '-list"><ul></ul></li>' );
-		
-		// give name
-		$build.find( 'input' ).attr( 'name', data.name );
-		
+				
 		// options
 		data.options.each (
 			function() {

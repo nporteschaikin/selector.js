@@ -18,6 +18,9 @@ Use these selectors:
 		
 */
 
+.selector {
+	float: left;
+}
 .selector,
 .selector ul {
 	list-style: none;
