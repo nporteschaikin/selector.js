@@ -12,9 +12,38 @@
 		uarr: 38,
 		darr: 40,
 		enter: 13,
-		esc: 27
+		esc: 27,
 	},
-
+	
+	letters = {
+		65: 'a',
+		66: 'b',
+		67: 'c',
+		68: 'd',
+		69: 'e',
+		70: 'f',
+		71: 'g',
+		72: 'h',
+		73: 'i',
+		74: 'j',
+		75: 'k',
+		76: 'l',
+		77: 'm',
+		78: 'n',
+		79: 'o',
+		80: 'p',
+		81: 'q',
+		82: 'r',
+		83: 's',
+		84: 't',
+		85: 'u',
+		86: 'v',
+		87: 'w',
+		88: 'x',
+		89: 'y',
+		90: 'z'
+	},
+	
 	methods = {
 		
 		init: function ( settings ) {
@@ -41,6 +70,7 @@
 						// build
 						$build = build( data );
 						data.build = $build;
+						data.crawl = crawl ( data );
 						
 						// place
 						$( this ).hide();
@@ -170,7 +200,7 @@
 						}
 						
 						// set selected
-						setSelected( data, item.eq );
+						selected ( data, item.eq );
 						
 						// change
 						data.el.val( item.value );
@@ -244,9 +274,45 @@
 		
 	}
 	
-	function setSelected ( data, eq ) {
+	function selected ( data, eq ) {
 		data.build.find( '.selected' ).removeClass( 'selected' );
 		data.build.find( '.' + data.settings.pfx + '-list li' ).eq( eq ).addClass( 'selected' );
+	}
+	
+	function crawl ( data ) {
+		
+		var crawl = [];
+		
+		data.options.each(
+			function() {
+				// get first letter of every object, associate with index
+				crawl.push( [$( this ).index(), $(this).html().charAt( 0 )] );
+			}
+		); 
+		
+		return crawl;
+		
+	}
+	
+	function letter ( data, key ) {
+		
+		var c = data.crawl,
+		el,
+		match = []; 
+		
+		for ( var i in c ) {
+			if ( c[i][1].toLowerCase() == letters[key].toLowerCase() ) {
+				el = data.build.find( '.' + data.settings.pfx + '-list li' ).eq( c[i][0] );
+				if( el.hasClass( 'selected' ) ) {
+					match.push( [ , true ] );
+				} else {
+					match.push( [ c[i][0], false ] );
+				}
+			}
+		}
+		
+		alert( match );
+		
 	}
 	
 	function binder ( data ) {
@@ -277,7 +343,7 @@
 		// focus
 		build.bind('focus', 
 			function() { 
-				build.addClass( data.settings.pfx + '-focus' ) 
+				build.addClass( data.settings.pfx + '-focus' );
 			} 
 		);
 		
@@ -294,44 +360,41 @@
 				
 				var focus = data.settings.pfx + '-focus',
 				open = data.settings.pfx + '-open',
-				selected = data.build.find('.selected'),
-				next = selected.next( 'li' ),
-				prev = selected.prev( 'li' ),
+				current = data.build.find('.selected'),
+				next = current.next( 'li' ),
+				prev = current.prev( 'li' ),
 				last = build.find('.' + data.settings.pfx + '-list li').last();
 				
 				if ( build.hasClass( focus ) ) {
-					switch( e.which ) {
-						case keys.enter:
-							if ( build.hasClass ( open ) ) {
-								build.select( 'close' );
-								build.select( 'change', { eq: selected.index() } );
-							} else {
-								build.select( 'open' );
-							}
-						break;
-						case keys.darr:
-							if ( !build.hasClass ( open ) ) {
-								build.select( 'open' );
-							} else {	
-								if ( next.length ) {
-									setSelected ( data, next.index() );
-								} else {
-									setSelected ( data, 0 );
-								}
-							}
-						break;
-						case keys.uarr:
-							if ( build.hasClass ( open ) ) {	
-								if ( prev.length ) {
-									setSelected ( data, prev.index() );
-								} else {
-									setSelected ( data, last.index() );
-								}
-							}
-						break;
-						case keys.esc:
+					if ( e.which == keys.enter ) {
+						if ( build.hasClass ( open ) ) {
 							build.select( 'close' );
-						break;
+							build.select( 'change', { eq: current.index() } );
+						} else {
+							build.select( 'open' );
+						}
+					} else if ( e.which == keys.darr ) {
+						if ( !build.hasClass ( open ) ) {
+							build.select( 'open' );
+						} else {	
+							if ( next.length ) {
+								selected ( data, next.index() );
+							} else {
+								selected ( data, 0 );
+							}
+						}
+					} else if ( e.which == keys.uarr ) {
+						if ( build.hasClass ( open ) ) {	
+							if ( prev.length ) {
+								selected ( data, prev.index() );
+							} else {
+								selected ( data, last.index() );
+							}
+						}
+					} else if ( e.which == keys.esc ) {
+						build.select( 'close' );
+					} else if ( e.which >= 65 && e.which <= 90 ) {
+						letter ( data, e.which );
 					}
 				}
 				
