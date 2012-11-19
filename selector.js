@@ -53,7 +53,8 @@
 					
 					// $(this) must be <select> and have a "name" attr
 					if( $( this ).is( 'select' ) 
-					&& $( this ).attr( 'name' ) ) {
+					&& $( this ).attr( 'name' )
+					&& !$( this ).data( 'select' ) ) {
 						
 						// select
 						var select = {
@@ -295,23 +296,6 @@
 	}
 	
 	function letter ( data, key ) {
-		
-		var c = data.crawl,
-		el,
-		match = []; 
-		
-		for ( var i in c ) {
-			if ( c[i][1].toLowerCase() == letters[key].toLowerCase() ) {
-				el = data.build.find( '.' + data.settings.pfx + '-list li' ).eq( c[i][0] );
-				if( el.hasClass( 'selected' ) ) {
-					match.push( [ , true ] );
-				} else {
-					match.push( [ c[i][0], false ] );
-				}
-			}
-		}
-		
-		alert( match );
 		
 	}
 	
