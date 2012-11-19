@@ -6,9 +6,16 @@
 		'z': '99',
 		'fade': false,
 		'sp': 100
-	}
+	},
+	
+	keys = {
+		uarr: 38,
+		darr: 40,
+		enter: 13,
+		esc: 27
+	},
 
-	var methods = {
+	methods = {
 		
 		init: function ( settings ) {
 			settings = $.extend( {}, defaults, settings, this.data() );
@@ -25,6 +32,7 @@
 							name: $( this ).attr( 'name' ),
 							options: $( this ).find( 'option' ),
 							id: $( this ).find( 'id' ),
+							tabindex: $( this ).attr('tabindex'),
 							settings: settings
 						},
 						// data
@@ -84,6 +92,9 @@
 						
 						// add open class
 						data.build.addClass( data.settings.pfx + '-open' );
+						
+						// focus 
+						data.build.focus();
 						
 						// bind
 						$(document).bind('click', 
@@ -154,8 +165,12 @@
 						
 						item = {
 							title: item.find( 'a' ).html(),
-							value: item.data( 'value' )
+							value: item.data( 'value' ),
+							eq: item.index()
 						}
+						
+						// set selected
+						setSelected( data, item.eq );
 						
 						// change
 						data.el.val( item.value );
@@ -203,6 +218,11 @@
 		$build = $('<ul class="' + data.settings.pfx + '" />');
 		$build.html( '<li class="' + data.settings.pfx + '-title"><a href="#"></a></li>' );
 		$build.append( '<li class="' + data.settings.pfx + '-list"><ul></ul></li>' );
+		
+		// tabindex
+		if( data.tabindex >= 0 ) {
+			$build.attr( 'tabindex', data.tabindex );
+		}
 				
 		// options
 		data.options.each (
@@ -222,6 +242,11 @@
 		// done
 		return $build;
 		
+	}
+	
+	function setSelected ( data, eq ) {
+		data.build.find( '.selected' ).removeClass( 'selected' );
+		data.build.find( '.' + data.settings.pfx + '-list li' ).eq( eq ).addClass( 'selected' );
 	}
 	
 	function binder ( data ) {
@@ -246,6 +271,70 @@
 				e.preventDefault();
 				build.select( 'change', { eq: $(this).parent().index() } );
 				build.select( 'close' );
+			}
+		)
+		
+		// focus
+		build.bind('focus', 
+			function() { 
+				build.addClass( data.settings.pfx + '-focus' ) 
+			} 
+		);
+		
+		build.bind('blur', 
+			function() { 
+				build.removeClass( data.settings.pfx + '-focus' );
+				build.select( 'close' );
+			} 
+		);
+		
+		// keys
+		$( document ).bind( 'keydown',
+			function( e ) {
+				
+				var focus = data.settings.pfx + '-focus',
+				open = data.settings.pfx + '-open',
+				selected = data.build.find('.selected'),
+				next = selected.next( 'li' ),
+				prev = selected.prev( 'li' ),
+				last = build.find('.' + data.settings.pfx + '-list li').last();
+				
+				if ( build.hasClass( focus ) ) {
+					switch( e.which ) {
+						case keys.enter:
+							if ( build.hasClass ( open ) ) {
+								build.select( 'close' );
+								build.select( 'change', { eq: selected.index() } );
+							} else {
+								build.select( 'open' );
+							}
+						break;
+						case keys.darr:
+							if ( !build.hasClass ( open ) ) {
+								build.select( 'open' );
+							} else {	
+								if ( next.length ) {
+									setSelected ( data, next.index() );
+								} else {
+									setSelected ( data, 0 );
+								}
+							}
+						break;
+						case keys.uarr:
+							if ( build.hasClass ( open ) ) {	
+								if ( prev.length ) {
+									setSelected ( data, prev.index() );
+								} else {
+									setSelected ( data, last.index() );
+								}
+							}
+						break;
+						case keys.esc:
+							build.select( 'close' );
+						break;
+					}
+				}
+				
 			}
 		)
 		

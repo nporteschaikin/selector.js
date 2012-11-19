@@ -46,3 +46,9 @@ Use these selectors:
 	padding: 3px 6px;
 	background: #f1f1f1;
 }
+
+.selector .selector-list a:hover,
+.selector .selector-list .selected a {
+	background: #000;
+	color: #fff;
+}
