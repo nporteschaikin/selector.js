@@ -11,7 +11,7 @@
 	var methods = {
 		
 		init: function ( settings ) {
-			settings = $.extend( {}, defaults, settings );
+			settings = $.extend( {}, defaults, settings, this.data() );
 			return this.each( 
 				function() {
 					
@@ -148,10 +148,20 @@
 						
 						item = {
 							title: item.find( 'a' ).html(),
-							value: item.attr( 'data-value' )
+							value: item.data( 'value' )
 						}
+						
+						// change
 						data.build.find( 'input' ).val( item.value );
 						data.build.find( '.' + data.settings.pfx + '-title a' ).html( item.title );
+						
+						// URL
+						var VALID_URL = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi,
+						VALID_URL_REGEX = new RegExp( VALID_URL ),
+						URL = item.value.toString();
+						if( data.settings.url && URL.match( VALID_URL_REGEX ) ) {
+							window.location = item.value;
+						}
 						
 					}
 					
@@ -219,6 +229,7 @@
 		
 		var build = data.build;
 		
+		// click title
 		build.find( '.' + data.settings.pfx + '-title a' ).bind( 'click', 
 			function( e ) {
 				e.preventDefault();
@@ -230,6 +241,7 @@
 			}
 		)
 		
+		// click list item
 		build.find( '.' + data.settings.pfx + '-list a' ).bind( 'click', 
 			function( e ) {
 				e.preventDefault();
