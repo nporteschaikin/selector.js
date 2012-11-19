@@ -71,7 +71,6 @@
 						// build
 						$build = build( data );
 						data.build = $build;
-						data.crawl = crawl ( data );
 						
 						// place
 						$( this ).hide();
@@ -261,7 +260,7 @@
 				var key = $( this ).attr('value'),
 				value = $( this ).html(),
 				item = $( '<li><a href="#"></a></li>' );
-				item.attr( 'data-value', key );
+				item.attr( { 'data-value': key } );
 				item.find('a').html( value );
 				$build.find( '.' + data.settings.pfx + '-list ul' ).append( item );
 			}
@@ -280,22 +279,35 @@
 		data.build.find( '.' + data.settings.pfx + '-list li' ).eq( eq ).addClass( 'selected' );
 	}
 	
-	function crawl ( data ) {
-		
-		var crawl = [];
-		
-		data.options.each(
-			function() {
-				// get first letter of every object, associate with index
-				crawl.push( [$( this ).index(), $(this).html().charAt( 0 )] );
-			}
-		); 
-		
-		return crawl;
-		
-	}
-	
 	function letter ( data, key ) {
+		
+		// letter to search by
+		var letter = letters[key],
+		
+		// element
+		el;
+		
+		// all options
+		all = data.build.find('.' + data.settings.pfx + '-list li'),
+		
+		// find options with matching first letter
+		options = all.filter(
+			function( key, value ) {
+				return $(value).find('a').html().substring(0, 1) == letter.toUpperCase();
+			}
+		),
+		
+		// find if there is selected element in this group
+		current = options.filter( '.selected' );
+		
+		if ( current.length && options.index( current.next( 'li' ) ) >= 0 ) {
+			el = all.index( current.next( 'li' ) );
+		} else {
+			el = all.index( options.first() );
+		}
+		
+		selected ( data, el );
+		data.build.select( 'change', { eq: el } );
 		
 	}
 	
