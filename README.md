@@ -3,7 +3,7 @@
 <ul>
 	<li>Simply apply the function to a &#60;select&#62; element; selector.js will take care of the rest.</li>
 	<li>Tab indexing</li>
-	<li>Keyboard navigation &#8212; search options by first letter.</li>
+	<li>Keyboard navigation &#8212; including search options by first letter.</li>
 </ul>
 <h1>Options</h1>
 <ul>
