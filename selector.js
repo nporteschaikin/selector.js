@@ -370,6 +370,7 @@
 							build.select( 'open' );
 						}
 					} else if ( e.which == keys.darr ) {
+						e.preventDefault();
 						if ( !build.hasClass ( open ) ) {
 							build.select( 'open' );
 						} else {	
