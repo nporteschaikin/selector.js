@@ -13,6 +13,7 @@
 		darr: 40,
 		enter: 13,
 		esc: 27,
+		tab: 8
 	},
 	
 	letters = {
@@ -162,6 +163,9 @@
 						} else {
 							options.css( 'display', 'none' );
 						}
+						
+						// blur 
+						data.build.blur();
 						
 						// remove open class
 						data.build.removeClass( data.settings.pfx + '-open' );
@@ -388,9 +392,9 @@
 								selected ( data, last.index() );
 							}
 						}
-					} else if ( e.which == keys.esc ) {
+					} else if ( e.which == keys.esc || e.which == keys.tab ) {
 						build.select( 'close' );
-					} else if ( e.which >= 65 && e.which <= 90 ) {
+					}	else if ( e.which >= 65 && e.which <= 90 ) {
 						letter ( data, e.which );
 					}
 				}
