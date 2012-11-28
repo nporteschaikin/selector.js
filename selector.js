@@ -128,7 +128,7 @@
 						data.build.focus();
 						
 						// bind
-						$(document).bind('click', 
+						$(document).bind( 'click.select', 
 							function( e ) { 
 								e.preventDefault();
 								if ( data.build.has( e.target ).length === 0 ) {
@@ -165,6 +165,9 @@
 						
 						// remove open class
 						data.build.removeClass( data.settings.pfx + '-open' );
+						
+						// unbind 
+						$(document).unbind( 'click.select' );
 						
 					} else {
 						return false;
@@ -363,12 +366,11 @@
 			function() { 
 				build.removeClass( data.settings.pfx + '-focus' );
 				build.select( 'close' );
-				$( document ).unbind( 'keydown.select' );
 			} 
 		);
 		
 		// keys
-		$( document ).bind( 'keydown.select',
+		$( document ).bind( 'keydown',
 			function( e ) {
 				
 				var focus = data.settings.pfx + '-focus',
