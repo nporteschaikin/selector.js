@@ -73,7 +73,7 @@
 							name: $( this ).attr( 'name' ),
 							options: $( this ).find( 'option' ),
 							id: $( this ).find( 'id' ),
-							tabindex: $( this ).attr('tabindex') || 0,
+							tabindex: $( this ).attr('tabindex') || -1,
 							settings: settings
 						},
 						// data
