@@ -267,6 +267,7 @@
 		// tabindex
 		if( data.tabindex >= 0 ) {
 			$build.attr( 'tabindex', data.tabindex );
+			data.el.removeAttr( 'tabindex' );
 		}
 				
 		// options
