@@ -1,3 +1,12 @@
+/*
+
+*	selector.js
+* The most functional custom <select> plugin on Earth.
+* @author Noah Portes Chaikin
+* @requires jQuery 1.6+
+
+*/
+
 (function( $ ){
 	
 	var defaults = { 
