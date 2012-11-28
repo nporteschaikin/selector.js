@@ -379,7 +379,7 @@
 		);
 		
 		// keys
-		$( document ).bind( 'keydown',
+		$( document ).bind( 'keydown.select',
 			function( e ) {
 				
 				var focus = data.settings.pfx + '-focus',
