@@ -58,6 +58,15 @@ Noah Portes Chaikin
 		background-image: -webkit-linear-gradient(top, #ddd 0%, #fff 100%);
 		background-image: linear-gradient(to bottom, #ddd 0%, #fff 100%);
 	}
+	
+	/* .. caret (optional -- must be turned on in options! see readme.) */
+	.selector i.caret {
+		
+	}
+		/* .. when opened */
+		.selector-open i.caret {
+
+		}
 
 /* The options container */
 .selector .selector-list ul {
