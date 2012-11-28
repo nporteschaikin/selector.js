@@ -150,7 +150,6 @@
 			
 			return this.each(
 				function() {
-					
 					var data = $( this ).data( 'select' );
 					if ( data.name ) {
 						
@@ -162,10 +161,7 @@
 							options.stop().fadeOut( data.settings.sp );
 						} else {
 							options.css( 'display', 'none' );
-						}
-						
-						// blur 
-						data.build.blur();
+						}		
 						
 						// remove open class
 						data.build.removeClass( data.settings.pfx + '-open' );
@@ -393,6 +389,7 @@
 							}
 						}
 					} else if ( e.which == keys.esc || e.which == keys.tab ) {
+						data.build.blur();
 						build.select( 'close' );
 					}	else if ( e.which >= 65 && e.which <= 90 ) {
 						letter ( data, e.which );
