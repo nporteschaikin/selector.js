@@ -14,7 +14,7 @@
 		darr: 40,
 		enter: 13,
 		esc: 27,
-		tab: 8
+		tab: 9
 	},
 	
 	letters = {
@@ -64,7 +64,7 @@
 							name: $( this ).attr( 'name' ),
 							options: $( this ).find( 'option' ),
 							id: $( this ).find( 'id' ),
-							tabindex: $( this ).attr('tabindex'),
+							tabindex: $( this ).attr('tabindex') || 0,
 							settings: settings
 						},
 						// data
@@ -107,7 +107,6 @@
 					
 					var data = $( this ).data( 'select' );
 					if ( data.name ) {
-						
 						// find options
 						var options = data.build.find( '.' + data.settings.pfx + '-list' ),
 						title = data.build.find( '.' + data.settings.pfx + '-title' );
@@ -249,7 +248,7 @@
 		$build = $('<ul class="' + data.settings.pfx + '" />');
 		$build.html( '<li class="' + data.settings.pfx + '-title"><a href="#"><span></span></a></li>' );
 		if( data.settings.caret ) {
-			$build.find('.' + data.settings.pfx + '-title a').append('<i class="caret" />');
+			$build.find('.' + data.settings.pfx + '-title a').append('<i class="' + data.settings.pfx + '-caret"></i>');
 		}
 		$build.append( '<li class="' + data.settings.pfx + '-list"><ul></ul></li>' );
 		
@@ -320,7 +319,7 @@
 		var build = data.build;
 		
 		// click title
-		build.find( '.' + data.settings.pfx + '-title a' ).bind( 'click', 
+		build.find( '.' + data.settings.pfx + '-title' ).bind( 'click', 
 			function( e ) {
 				e.preventDefault();
 				if( build.hasClass( data.settings.pfx + '-open' ) ) {
