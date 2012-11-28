@@ -278,8 +278,21 @@
 	}
 	
 	function selected ( data, eq ) {
+		var 
+		
+		// the selected element
+		th = data.build.find( '.' + data.settings.pfx + '-list li' ).eq( eq ),
+		
+		// list
+		list = data.build.find( '.' + data.settings.pfx + '-list ul' ),
+		
+		// position
+		pos = list.scrollTop() + th.position().top;
+		
 		data.build.find( '.selected' ).removeClass( 'selected' );
-		data.build.find( '.' + data.settings.pfx + '-list li' ).eq( eq ).addClass( 'selected' );
+		th.addClass( 'selected' );
+		list.scrollTop( pos );
+		
 	}
 	
 	function letter ( data, key ) {
@@ -350,11 +363,12 @@
 			function() { 
 				build.removeClass( data.settings.pfx + '-focus' );
 				build.select( 'close' );
+				$( document ).unbind( 'keydown.select' );
 			} 
 		);
 		
 		// keys
-		$( document ).bind( 'keydown',
+		$( document ).bind( 'keydown.select',
 			function( e ) {
 				
 				var focus = data.settings.pfx + '-focus',
