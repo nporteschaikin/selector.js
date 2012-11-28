@@ -5,7 +5,8 @@
 		'pfx': 'selector',
 		'z': '99',
 		'fade': false,
-		'sp': 100
+		'sp': 100,
+		'caret': false
 	},
 	
 	keys = {
@@ -204,7 +205,7 @@
 						
 						// change
 						data.el.val( item.value );
-						data.build.find( '.' + data.settings.pfx + '-title a' ).html( item.title );
+						data.build.find( '.' + data.settings.pfx + '-title a span:first' ).html( item.title );
 						
 						// URL
 						if( data.settings.url && item.value !== '' ) {
@@ -246,7 +247,10 @@
 		
 		// structure
 		$build = $('<ul class="' + data.settings.pfx + '" />');
-		$build.html( '<li class="' + data.settings.pfx + '-title"><a href="#"></a></li>' );
+		$build.html( '<li class="' + data.settings.pfx + '-title"><a href="#"><span></span></a></li>' );
+		if( data.settings.caret ) {
+			$build.find('.' + data.settings.pfx + '-title a').append('<i class="caret" />');
+		}
 		$build.append( '<li class="' + data.settings.pfx + '-list"><ul></ul></li>' );
 		
 		// tabindex
