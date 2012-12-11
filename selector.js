@@ -23,7 +23,8 @@
 		darr: 40,
 		enter: 13,
 		esc: 27,
-		tab: 9
+		tab: 9,
+		space: 32
 	},
 	
 	letters = {
@@ -391,7 +392,8 @@
 				last = build.find('.' + data.settings.pfx + '-list li').last();
 				
 				if ( build.hasClass( focus ) ) {
-					if ( e.which == keys.enter ) {
+					if ( e.which == keys.enter 
+						|| e.which == keys.space ) {
 						if ( build.hasClass ( open ) ) {
 							build.select( 'close' );
 							build.select( 'change', { eq: current.index() } );
