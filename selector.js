@@ -10,7 +10,8 @@
 (function($){
   
   var defaults = {
-    prefix: 'select'
+    prefix: 'select',
+    hide: true
   },
   
   methods = {
@@ -39,7 +40,7 @@
             
             // place
             $(this).after(select);
-            select.hide();
+            if (settings.hide) select.hide();
             
             // save data
             $(this).data('select', data);
